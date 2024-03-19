@@ -103,7 +103,7 @@ T(n) = 3 T($\frac{n}{4}$) + n $log_2 n$
 * f (n) = n $log_2 n$
 
 **Passo 2** 
-* n ^ ($log_4 3)$ | [Mudança de Base](Anotações)
+* n ^ ($log_4 3)$ | [Mudança de Base](Anotações.md)
 *  0.5 < n < 1
 
 **Passo 3**
