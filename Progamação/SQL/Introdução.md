@@ -280,3 +280,16 @@ CREATE TABLE aluno_curso (
 );
 ```
 
+### Consultas com relacionamentos
+
+* Até o momento, para sabermos em qual o curso o aluno está matriculado, usamos o `SELECT * FROM nome_da_tabela WHERE id =` para consultar individualmente o id do aluno e do curso em cada tabela. Contudo, essa não é uma boa forma para visualizarmos os dados, então aprenderemos como fazer essa consulta em uma única _query_.
+
+```sql
+SELECT *
+  FROM aluno
+  JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id
+```
+
+* `JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id`: Realiza uma junção entre as tabelas `aluno` e `aluno_curso` com base em uma condição. O `ON` especifica a condição de junção, onde `aluno_curso.aluno_id` deve ser igual a `aluno.id`. Isso significa que a junção será feita usando a coluna `aluno_id` da tabela `aluno_curso` e a coluna `id` da tabela `aluno`.
+
+* Em resumo, esta consulta retorna todas as colunas das tabelas `aluno` e `aluno_curso` para os registros que têm um `aluno_id` correspondente na tabela `aluno`. Isso é útil para combinar informações de ambas as tabelas com base em uma chave estrangeira (`aluno_id` na tabela `aluno_curso`) que referencia a chave primária (`id` na tabela `aluno`) na tabela `aluno`.
