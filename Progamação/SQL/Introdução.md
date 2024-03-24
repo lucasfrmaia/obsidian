@@ -280,6 +280,7 @@ CREATE TABLE aluno_curso (
 );
 ```
 
+---
 ### Consultas com relacionamentos
 
 * Até o momento, para sabermos em qual o curso o aluno está matriculado, usamos o `SELECT * FROM nome_da_tabela WHERE id =` para consultar individualmente o id do aluno e do curso em cada tabela. Contudo, essa não é uma boa forma para visualizarmos os dados, então aprenderemos como fazer essa consulta em uma única _query_.
@@ -293,3 +294,165 @@ SELECT *
 * `JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id`: Realiza uma junção entre as tabelas `aluno` e `aluno_curso` com base em uma condição. O `ON` especifica a condição de junção, onde `aluno_curso.aluno_id` deve ser igual a `aluno.id`. Isso significa que a junção será feita usando a coluna `aluno_id` da tabela `aluno_curso` e a coluna `id` da tabela `aluno`.
 
 * Em resumo, esta consulta retorna todas as colunas das tabelas `aluno` e `aluno_curso` para os registros que têm um `aluno_id` correspondente na tabela `aluno`. Isso é útil para combinar informações de ambas as tabelas com base em uma chave estrangeira (`aluno_id` na tabela `aluno_curso`) que referencia a chave primária (`id` na tabela `aluno`) na tabela `aluno`.
+
+---
+### 07 LEFT, RIGHT, CROSS e FULL JOINS
+
+#### Left Join
+
+* Por isso aprenderemos comandos para juntar tabelas quando há informações faltando. O primeiro comando é o **`LEFT JOIN`** , que significa que existe um dado na tabela da esquerda, mas não existe na tabela da direita.
+
+```sql
+SELECT aluno.nome as "Nome do Aluno",
+        curso.nome as "Nome do Curso"
+    FROM aluno
+LEFT JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id
+LEFT JOIN curso ON curso.id = aluno_curso.curso_id
+```
+* Agora temos o retorno de todos os alunos, estejam eles matriculado em um curso ou não. Quando o aluno não está matriculado, o campo do curso recebe o valor nulo. Contudo também ocorre a situação inversa, em que temos um curso que não tem alunos matriculados.
+
+#### **Right Join**
+
+* Para termos o retorno da lista com todos os cursos, usamos o comando inverso, ou seja, o comando `RIGHT JOIN` . Os resultados mostram a lista completa de cursos, sendo que o campo "Nome do Aluno" dos cursos que não têm alunos matriculados aparece como _null_. Isso acontece porque agora estamos focados na coluna da direita.
+
+### Cross Join
+
+Existe outro tipo de junção que relaciona todos os dados da tabela "A" com todos os dados da tabela "B". Para essa junção, escreveremos o _select_ sem passar pela tabela "aluno_curso".
+
+```sql
+SELECT aluno.nome as "Nome do Aluno",
+       curso.nome as "Nome do Curso"
+    FROM aluno
+CROSS JOIN curso
+```
+
+* O `CROSS JOIN` , que colocamos no nosso código, não precisa de um campo para realizar o vínculo, porque ele vai extrair os dados da tabela "aluno" (`FROM aluno`) e mesclar à tabela curso (`CROSS JOIN curso`), como se cada aluno estivesse matriculado em todos os cursos, ou seja, esse comando multiplica os dados da tabela "A" pelos dados da tabela "B".
+
+#### Inner Join
+
+* O `INNER JOIN` é um tipo de junção em SQL que combina linhas de duas tabelas com base em uma condição especificada, e apenas retorna as linhas que têm uma correspondência nas duas tabelas. Ou seja, ele retorna apenas os registros que possuem um valor correspondente nas duas tabelas, de acordo com a condição de junção especificada.
+
+```sql
+SELECT aluno.nome as "Nome do Aluno",
+        curso.nome as "Nome do Curso"
+    FROM aluno
+INNER JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id
+```
+
+---
+### DELETE, UPDATE CASCADE
+
+* `ON DELETE CASCADE`: Quando uma chave estrangeira é definida com `ON DELETE CASCADE`, isso significa que se um registro na tabela pai (no caso, `aluno`) for excluído, todas as linhas nas tabelas filhas (como `aluno_curso`) que possuem uma referência para esse registro serão automaticamente excluídas também. Por exemplo, se um aluno for removido da tabela `aluno`, todas as suas matrículas em cursos (`aluno_curso`) também serão removidas.
+    
+* `ON UPDATE CASCADE`: Da mesma forma, quando uma chave estrangeira é definida com `ON UPDATE CASCADE`, se a chave primária na tabela pai for atualizada, todas as referências a essa chave nas tabelas filhas serão automaticamente atualizadas para refletir a nova chave. Por exemplo, se o `id` de um aluno for alterado na tabela `aluno`, todas as referências a esse aluno na tabela `aluno_curso` serão atualizadas para refletir o novo `id`.
+
+```sql
+CREATE TABLE aluno_curso (
+    aluno_id INTEGER,
+    curso_id INTEGER,
+    PRIMARY KEY (aluno_id, curso_id),
+
+    FOREIGN KEY (aluno_id)
+     REFERENCES aluno (id)
+     ON DELETE CASCADE,
+
+    FOREIGN KEY (curso_id)
+     REFERENCES curso (id)
+);
+```
+
+---
+### Ordenando as consultas
+
+```sql
+SELECT * 
+    FROM funcionarios
+    ORDER BY nome;
+```
+
+* Com o código acima nossa busca retorna a tabela "funcionarios" organizada pelos nomes em ordem alfabética, ou seja, crescente. Caso queiramos fazer essa organização em ordem decrescente, podemos trocar pelo comando por `ORDER BY nome DESC` , porque a partícula `DESC` determina que a ordem será decrescente.
+
+---
+
+### Limitando as consultas
+
+```sql
+SELECT *
+  FROM funcionarios
+  ORDER BY nome
+LIMIT 5;
+```
+
+* Com esse código, temos o retorno dos cinco primeiros registos ordenados pelo nome.
+
+```sql
+SELECT *
+  FROM funcionarios
+  ORDER BY id
+ LIMIT 5
+OFFSET 1;
+```
+
+Se precisarmos do retorno de dados que não estão no começo da tabela, ou seja, exibir o resultado após avançar algumas linhas, codamos o comando `OFFSET` . Essa cláusula pula a quantidade de linhas que estipularmos antes de exibir a busca, como podemos observar na simulação a seguir. Nela a ordenação será pelo "**id**" para visualizarmos melhor essa função.
+
+---
+### Funções de agregação
+
+```lua
+-- COUNT - Retorna a quantidade de registros
+-- SUM -   Retorna a soma dos registros
+-- MAX -   Retorna o maior valor dos registros
+-- MIN -   Retorna o menor valor dos registros
+-- AVG -   Retorna a média dos registros
+```
+
+```sql
+SELECT COUNT (id)
+  FROM funcionarios;
+```
+
+* Ao executarmos esse comando, teremos o retorno de quantos registros existem no nosso banco, que no caso são **"7"**. Caso alteremos o número "id", como nas aulas passadas, esse comando continuará retornando a quantidade de registros, e não o valor do "id" mais alto.
+
+```sql
+SELECT COUNT (id),
+       SUM(id),
+       MAX(id),
+       MIN(id),
+       ROUND(AVG(id),0)
+  FROM funcionarios;
+```
+
+--- 
+### Agrupando consultas
+
+```sql
+SELECT DISTINCT
+        nome
+  FROM funcionarios
+  ORDER BY nome;
+```
+
+* O `DISTINCT` garante que os dados do campo solicitado não se repitam, a partir do agrupamento de informações. No nosso exemplo, estamos aplicando ao campo "nome", então ao executarmos o código acima, a lista retorna "Diogo" uma única vez. Observemos o que acontece se, além do nome, pedirmos o sobrenome.
+
+```sql
+SELECT
+       nome,
+       sobrenome,
+       COUNT(*)
+  FROM funcionarios
+  GROUP BY nome, sobrenome
+  ORDER BY nome;
+```
+
+* Executando esse código, notamos que função `COUNT()` retornou a quantidade de dados agrupados no nome "Diogo".
+
+---
+### Filtrando consultas agrupadas
+
+```sql
+SELECT nome
+    FROM funcionarios
+    GROUP BY nome
+    HAVING COUNT(id) > 1;
+```
+* Nesse código, solicitamos que o programa retorne o nome dos funcionários que aparecem mais de uma vez. No caso, o "Diogo". Além disso, poderíamos pedir a quantidade de duplicações com `COUNT()`.
