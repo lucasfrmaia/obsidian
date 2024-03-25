@@ -25,14 +25,13 @@
     - No modelo TCP/IP, o processo é semelhante, mas o modelo é mais simples, com menos camadas. Os dados são enviados para a camada de rede (Internet Protocol - IP), que adiciona seu próprio cabeçalho para formar um datagrama IP. Esse datagrama é então enviado para a camada de transporte (TCP ou UDP), que adiciona seu cabeçalho para formar um segmento (no caso do TCP) ou um datagrama (no caso do UDP).
     
 2.  **Afirmativas:** 
-
-* a. **Verdadeira.** O protocolo POP3 (Post Office Protocol version 3) permite que o cliente baixe e apague as mensagens do servidor, enquanto o protocolo IMAP (Internet Message Access Protocol) permite que o cliente baixe e mantenha as mensagens no servidor.
-
-* b. **Falsa.** No processo de comunicação de e-mail, o servidor de correio atua como um servidor SMTP (Simple Mail Transfer Protocol), não HTTP. O HTTP (Hypertext Transfer Protocol) é usado para comunicação web, não para correio eletrônico.
-
-* c. **Falso.** O GET condicional não está relacionado com a obtenção de objetos de forma paralela durante o processo de comunicação. O GET condicional é um recurso do HTTP que permite verificar se um objeto foi modificado desde a última vez que foi acessado, evitando assim o download desnecessário de objetos não modificados. 
-
-*  d. **Verdadeira.** Os servidores DNS do tipo Top-Level Domain (TLD) estão no topo da hierarquia e são responsáveis por armazenar informações sobre os domínios de alto nível, como .com, .org, .net, entre outros. Por estarem no topo da hierarquia, eles são mais visados em ataques DDoS e de falsificação.
+	* a. **Verdadeira.** O protocolo POP3 (Post Office Protocol version 3) permite que o cliente baixe e apague as mensagens do servidor, enquanto o protocolo IMAP (Internet Message Access Protocol) permite que o cliente baixe e mantenha as mensagens no servidor.
+	
+	* b. **Falsa.** No processo de comunicação de e-mail, o servidor de correio atua como um servidor SMTP (Simple Mail Transfer Protocol), não HTTP. O HTTP (Hypertext Transfer Protocol) é usado para comunicação web, não para correio eletrônico.
+	
+	* c. **Falso.** O GET condicional não está relacionado com a obtenção de objetos de forma paralela durante o processo de comunicação. O GET condicional é um recurso do HTTP que permite verificar se um objeto foi modificado desde a última vez que foi acessado, evitando assim o download desnecessário de objetos não modificados. 
+	
+	*  d. **Verdadeira.** Os servidores DNS do tipo Top-Level Domain (TLD) estão no topo da hierarquia e são responsáveis por armazenar informações sobre os domínios de alto nível, como .com, .org, .net, entre outros. Por estarem no topo da hierarquia, eles são mais visados em ataques DDoS e de falsificação.
     
 3. **Uso de Cookies e Cache:**
     - O uso de cookies e cache durante a navegação pode melhorar significativamente a experiência do usuário, proporcionando rapidez e consistência na obtenção de objetos HTTP.
@@ -92,3 +91,24 @@
 1. **Movimentação de Mensagem de Alice para Bob:**
     - A mensagem é enviada por meio do protocolo SMTP (Simple Mail Transfer Protocol) do cliente de e-mail de Alice para o servidor de e-mail da Web (como Hotmail ou Gmail).
     - Bob acessa seu e-mail por meio do protocolo POP3 (Post Office Protocol version 3), baixando a mensagem do servidor de e-mail para seu dispositivo.
+
+---
+
+# Resumo
+
+* 1. No modelo OSI, o encapsulamento de dados ocorre a medida que os dados descem pelas camadas onde cada camada adiciona seu cabeçalho, no modelo TCP/IP é parecido só que mais simplificado onde os dados são enviado para camada de rede que adiciona seu próprio cabeçalho formando um datagrama IP
+
+2. 
+	*  **Verdadeiro**, o protocolo POP3 permite que o cliente baixe e apague mensagem do servidor enquanto O IMAP baixa e mantém
+
+	*  **Falsa**: o servidor atua como SMTP e não HTTTP
+
+	* **Falso** o get não está relacionado com a obtenção de objetos de forma paralela durante o processo de comunicação
+
+	* **Verdadeiro**: os servidores estão no TLD e armazenam informações de alto nivel e por estarem no topo da hierarquia , são mais visados paras ataques DDos
+
+3. 
+	* O uso de cookies serve para melhorar a experência do usuário
+	* **Institucional**: O usuário faz uma requisição HTTPS para o servidor, o servidor responde e verifica cookies de autenticação e já define uma sessão sem precisar do login
+	* **E-commerce**: O usuário faz uma requisição HTTPS para o servidor, o servidor responde e verifica cookies de autenticação e já define uma sessão sem precisar do login
+		
