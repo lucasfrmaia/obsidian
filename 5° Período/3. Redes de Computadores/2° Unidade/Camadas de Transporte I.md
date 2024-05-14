@@ -278,7 +278,7 @@
     - A CAM permite retornar um endereço de 32 bits da tabela de repasse em tempo constante.
     - Roteadores modernos, como o Cisco 8500, usam CAM para acelerar as consultas.
     - Manter registros recentemente acessados em cache também melhora o desempenho.
-## Elementos da Computação
+## Elementos da Comutação
 
 1. **Elementos de Comutação:**
     - Os elementos de comutação conectam as portas de entrada do roteador às suas portas de saída.
