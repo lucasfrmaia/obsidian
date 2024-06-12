@@ -67,3 +67,52 @@ function generatePascalTriangle(n):
 ```
 
 ![[Pasted image 20240612012236.png]]
+
+### LCS
+
+```java
+LCS
+
+LCS(X, Y)
+m ← length(X)
+n ← length(Y)
+
+for i ← 1 to m do
+  c[i, 0] ← 0
+
+for j ← 1 to n do
+  c[0, j] ← 0
+
+for i ← 1 to m do
+  for j ← 1 to n do
+	  if (Xi == Yj) 
+		  c[i, j] ← c[i-1, j-1] + 1
+	  else
+		 c[i, j] ← max(c[i-1, j], c[i, j-1])
+
+return c[m, n]
+```
+
+![[Pasted image 20240612024817.png]]
+
+### Mochila binaria dinamica
+
+```java
+MochilaPD(itens[1..n],W)
+
+criar matriz V[n,W]
+inicializar V[0,j]<-0 e V[i,0]<-0
+
+for i<- 1 to n do
+  for j<- 1 to W do
+	if peso(i) > j then
+	 V[i,j]<- V(i-1,j)
+	else
+	 V(i,j)<-max{V(i-1,j-peso(i)]+valor(i),V[i-1,j]}
+
+return V(n,W)
+```
+
+### Mochila Fracionaria
+
+![[Pasted image 20240612025124.png]]
