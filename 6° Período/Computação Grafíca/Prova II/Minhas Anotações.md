@@ -79,6 +79,25 @@ Onde:
 
 -> A matriz terá que ter valores positivos perto ao centro e negativos longe deles
 
+
+### Filtro alto com reforço
+
+### Passo a Passo da Imagem de Alto Reforço (High-Boost)
+
+1. **Obtenha a Imagem Original**: Comece com uma imagem original que você deseja realçar.
+    
+2. **Aplique o Filtro Passa-Baixa**: Use um filtro passa-baixa (como uma média ou gaussiano) para suavizar a imagem. Por exemplo:
+    
+    - Se a imagem original tiver intensidades de pixels variando rapidamente nas bordas, a imagem suavizada terá essas variações reduzidas, resultando em uma versão borrada da imagem.
+3. **Crie a Máscara de Nitidez**: Subtraia a imagem suavizada da imagem original para criar a máscara de nitidez, que contém apenas os detalhes:
+    PgP
+    Maˊscara de Nitidez=Imagem Original−Imagem Suavizada\text{Máscara de Nitidez} = \text{Imagem Original} - \text{Imagem Suavizada}Maˊscara de Nitidez=Imagem Original−Imagem Suavizada
+    - **Exemplo de Resultado**: Se um pixel na imagem original tem valor 200 (em uma escala de 0 a 255) e na imagem suavizada esse pixel foi reduzido para 180, então na máscara de nitidez, o valor desse pixel seria 200−180=20200 - 180 = 20200−180=20.
+4. **Construa a Imagem High-Boost**: Multiplique a máscara de nitidez pelo fator AAA e adicione à imagem original:
+    
+    Imagem High-Boost=Imagem Original+A×(Maˊscara de Nitidez)\text{Imagem High-Boost} = \text{Imagem Original} + A \times (\text{Máscara de Nitidez})Imagem High-Boost=Imagem Original+A×(Maˊscara de Nitidez)
+    - **Exemplo de Cálculo**: Suponha A=1.5A = 1.5A=1.5. Usando o exemplo anterior, onde a máscara de nitidez para um pixel era 20, o valor multiplicado seria 1.5×20=301.5 \times 20 = 301.5×20=30. Assim, o valor final do pixel na imagem high-boost seria: 200+30=230200 + 30 = 230200+30=230 Esse valor aumenta o contraste para os detalhes (bordas) e realça a nitidez.
+
 ### Filtros de Detecção de Bordas
 
 - São filtros da primeira derivada
@@ -90,6 +109,8 @@ z7, z8, z9
 ]
 
 #### Filtro de Robert
+
+**Mag: Z5 – Z8 | + | Z5 – Z6 |**
 
 Mascara Direção de X: [
    1, 0
@@ -103,6 +124,8 @@ Mascara Direção de Y: [
 
 ### Filtro de Robert Cruzado
 
+**Mag = |Z5 – Z9| + |Z6 – Z8|**
+
 Mascara Direção de X: [
    1, 0
    -1, 0
@@ -114,6 +137,8 @@ Mascara Direção de Y: [
 ]
 
 #### Filtro de Prewitt
+
+Mag = |(Z7 + Z8 + Z9) – (Z1 + Z2 + Z3)| + |(Z3 + Z6 + Z9) – (Z1 + Z4 + Z7)|
 
 Em direção a X: [
   -1, -1, -1
@@ -129,6 +154,8 @@ Em direção a Y: [
 
 ### Filtro de Sobel
 
+![[Pasted image 20241105051716.png]]
+
 Em X: [
   -1 -2 -1
   0 0 0
@@ -141,9 +168,11 @@ Em Y: [
   -1 0 1
 ]
 
-As funções de transferência de intensidade são ferramentas essenciais no processamento de imagens, especialmente em áreas como realce de imagem, segmentação e ajuste de contraste. Elas mapeiam valores de intensidade de entrada em valores de intensidade de saída, ajustando a percepção e o destaque dos detalhes.
+-> A magnetude é só calcular o X e Y e depois somar (Somar os modulos de X e Y, só positivos)
 
-Aqui estão as principais funções de transferência de intensidade e suas fórmulas:
+---
+
+## Transferência de intensidade e suas fórmulas:
 
 ### 1. **Função de Probabilidade de Intensidade**
 A função de probabilidade de intensidade (ou histograma) de uma imagem com níveis de intensidade \( L \) fornece a distribuição de frequência de cada valor de intensidade. O histograma de uma imagem é definido como:
