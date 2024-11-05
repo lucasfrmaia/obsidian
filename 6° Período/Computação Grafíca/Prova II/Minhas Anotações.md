@@ -8,12 +8,10 @@
 - **Aquisição:** Captura de imagem a partir de dispositivos
 - **Pré-Processamento:** Realiza remoções de ruídos e outros ajustes como contrastes.
 - **Segmentação:** Separação da imagem em regiões de interesse.
-- **Extração de Características:** Extração de bordas, formas e texturas
+- **Extração de atributos:** Extração de bordas, formas e texturas
 - **Classificação e Interpretação**: Classificar/Interpretar o conteúdo da imagem
-- **Decisão:** Com base na classificação, uma decisão é tomada
 
 **Sistema de Processamento de Imagem**
-
    - **Aquisição:** Captura da imagem a partir de dispositivos como câmeras digitais. **Armazenamento:** Salva a imagem em uma mídia digital.
    - **Processamento:** Aplicação de algoritmos para melhorar a qualidade, segmentar, analisar ou modificar a imagem.
    - **Comunicação:** Transferência de imagens e dados para outros sistemas ou dispositivos por redes ou cabos.
@@ -24,35 +22,29 @@
 
 5) **Amostragem e Quantização:**
 
-   - **Amostragem:** Processo de converter uma imagem contínua em uma imagem discreta ao selecionar pontos específicos (pixels) para representá-la.
+- **Amostragem**: É o processo de discretização em coordenadas espaciais (x,y).
+- **Quantização**: É o processo de discretização em amplitude.
 
-   - **Quantização:** Processo de reduzir a precisão dos valores de intensidade para um número finito de níveis, associando cada intensidade de pixel a um valor discreto.
-
-   - **Exemplo:** Em uma foto, a amostragem define a quantidade de pixels, enquanto a quantização determina os níveis de cinza ou cor que cada pixel pode assumir.
-
-6) **Vizinhança de um pixel:**
+7) **Vizinhança de um pixel:**
 
    - Refere-se ao conjunto de pixels ao redor de um pixel central. A vizinhança pode ser definida de várias formas, como:
 
      - **Vizinhança de 4:** Inclui os pixels acima, abaixo, à esquerda e à direita.
      - **Vizinhança de 8:** Inclui os pixels acima, abaixo, à esquerda, à direita e os quatro diagonais.
 
-7) **Medida de distância entre pixels:**
+8) **Medida de distância entre pixels:**
 
    - **Distância Euclidiana:** A distância entre dois pixels $p(x_1, y_1)$ e$ q(x_2, y_2)$ é dada pela fórmula $d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. Por exemplo, entre $p(1, 2)$ e$ q(4, 6) $, a distância Euclidiana é $sqrt{(4 - 1)^2 + (6 - 2)^2} = \sqrt{9 + 16} = 5$.
 
-8) **Convolução e Correlação:**
+9) **Convolução e Correlação:**
 
    - **Convolução:** É uma operação entre uma imagem e um filtro (ou kernel) onde cada pixel é substituído pela soma ponderada de seus vizinhos, definida pelo filtro, usada em operações de suavização, detecção de bordas, etc.
 
    - **Correlação:** Similar à convolução, mas a aplicação do filtro ocorre sem reversão do kernel, sendo usada para detecção de padrões específicos em imagens.
 
+![[Pasted image 20241105010040.png]]
+
 ---
-
-
-
-
-
 
 ## Filtros
 
@@ -149,10 +141,56 @@ Em Y: [
   -1 0 1
 ]
 
+As funções de transferência de intensidade são ferramentas essenciais no processamento de imagens, especialmente em áreas como realce de imagem, segmentação e ajuste de contraste. Elas mapeiam valores de intensidade de entrada em valores de intensidade de saída, ajustando a percepção e o destaque dos detalhes.
+
+Aqui estão as principais funções de transferência de intensidade e suas fórmulas:
+
+### 1. **Função de Probabilidade de Intensidade**
+A função de probabilidade de intensidade (ou histograma) de uma imagem com níveis de intensidade \( L \) fornece a distribuição de frequência de cada valor de intensidade. O histograma de uma imagem é definido como:
 
 
+$$p(r_k) = \frac{n_k}{n}$$
+
+onde:
+- \( p(r_k) \) é a probabilidade de um pixel ter a intensidade \( r_k \),
+- \( n_k \) é o número de pixels com intensidade \( r_k \),
+- \( n \) é o número total de pixels na imagem.
+
+Essa função ajuda a identificar a distribuição de tons e é frequentemente usada para transformações de contraste e equalização de histograma.
+
+### 2. **Transformação Linear**
+A transformação linear é uma das mais simples, e estende os valores de intensidade para utilizar todo o intervalo possível de valores na imagem. O mapeamento de intensidade é dado por:
 
 
+$$s = a \cdot r + b$$
+
+onde:
+- \( r \) é a intensidade de entrada,
+- \( s \) é a intensidade de saída,
+- \( a \) e \( b \) são constantes de ajuste (slope e intercept).
+
+Essa transformação é útil para melhorar o contraste de imagens de baixo contraste.
+
+### 3. **Transformação Logarítmica**
+A transformação logarítmica amplia as intensidades de baixa amplitude e reduz a amplitude das intensidades mais altas. É definida por:
+
+
+$$s = c \cdot \log(1 + r)$$
+
+onde:
+- \( c \) é uma constante que escala a transformação,
+- \( r \) é a intensidade de entrada.
+
+Essa transformação é particularmente útil para imagens onde detalhes nas sombras são mais importantes do que nos destaques.
+
+### **Função de transformação de intensidade e faixa dinâmica**
+
+![[Pasted image 20241105050507.png]]
+
+### **Função Sigmoidal**
+A função sigmoidal é uma transformação não-linear usada para melhorar o contraste em regiões específicas da imagem. Ela é dada por:
+
+$$s = \frac{1}{1 + e^{-a(r - m)}}$$
 
 
 
@@ -185,6 +223,11 @@ A **dilatação** é uma operação que expande os objetos na imagem. No context
 
 Ou seja p/ cada ponto de A somamos com todos os pontos de B, e ao final unimos em um conjunto.
 
+### Erosão
+
+-> Faz uma dilatação de cada elemento de A com a mascara B
+-> os conjuntos resultante que estiverem contido em A, os valores de A será adicionado ao conjunto de A erodido B 
+
 ### Resumo das Operações com Exemplos
 
 | Operador                  | Definição Formal                           | Exemplo                           | Efeito                             |
@@ -196,3 +239,18 @@ Ou seja p/ cada ponto de A somamos com todos os pontos de B, e ao final unimos e
 | **Gradiente Morfológico** | **(A ⊕ B) – (A θ B)**                      |                                   |                                    |
 | **Contorno Externo**      | **(A ⊕ E) - A**                            |                                   |                                    |
 | **Contorno Interno**      | **(A) = {A - (A θ E)}**                    |                                   |                                    |
+## Morfologia em Nível de Cinza
+
+-  **Dilatação:**  Pega cada pixel que a mascara pega, soma os elementos e pega o máximo
+-  **Erosão:** Pega cada pixel que a mascara pega, soma os elementos e pega o miniimo
+- **Abertura e Fechamento**
+	- Abertura: Erosão depois dilatação
+	- Fechamento: Dilatação depois erosão
+- **Gradiente** Dilatação menos erosão
+- **Top-Hat e Bottom-Hat** 
+	- Top hat: Imagem - Abertura com W
+	- Bottom hat: Fechamento - Imagem
+
+Arredondar se passar dos limites 0 ou 255, arredonda p 0 ou 255
+
+---
