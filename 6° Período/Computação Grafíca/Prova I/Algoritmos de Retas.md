@@ -127,7 +127,7 @@ Com base nisso:
 - Se $d = 0$, podemos escolher qualquer um dos dois.
 
 ### Incremento no ponto M
-
+ 
 - Se **E** for escolhido, $M$ é incrementado de 1 na direção $x$:
 
 $$
